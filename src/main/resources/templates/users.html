@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Users</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #ddd; }
+        form.inline { display: inline; }
+        .add-form { display: flex; gap: .5rem; flex-wrap: wrap; }
+        .add-form input { padding: .4rem; }
+        button { padding: .4rem .8rem; cursor: pointer; }
+        .message { background: #e6f4ea; padding: .6rem; border-radius: 4px; margin-bottom: 1rem; }
+        .error { background: #fdecea; padding: .6rem; border-radius: 4px; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <h1>Users</h1>
+
+    <div class="message" th:if="${message}" th:text="${message}"></div>
+    <div class="error" th:if="${error}" th:text="${error}"></div>
+
+    <!-- CREATE -->
+    <form class="add-form" th:action="@{/users}" method="post">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email (optional)">
+        <button type="submit">Add user</button>
+    </form>
+
+    <!-- READ -->
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Name</th><th>Email</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}">1</td>
+                <td th:text="${user.name}">Name</td>
+                <td th:text="${user.email}">email@example.com</td>
+                <td>
+                    <!-- UPDATE -->
+                    <a th:href="@{/users/{id}/edit(id=${user.id})}">Edit</a>
+
+                    <!-- DELETE -->
+                    <form class="inline" th:action="@{/users/{id}/delete(id=${user.id})}" method="post"
+                          onsubmit="return confirm('Delete this user?');">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(users)}">
+                <td colspan="4">No users yet.</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

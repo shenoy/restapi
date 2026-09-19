@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit user</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 480px; margin: 2rem auto; padding: 0 1rem; }
+        label { display: block; margin-top: 1rem; }
+        input { width: 100%; padding: .4rem; box-sizing: border-box; }
+        button { margin-top: 1rem; padding: .4rem .8rem; cursor: pointer; }
+        small { color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Edit user #<span th:text="${user.id}">1</span></h1>
+
+    <form th:action="@{/users/{id}/edit(id=${user.id})}" method="post">
+        <label>Name
+            <input type="text" name="name" th:value="${user.name}">
+        </label>
+        <label>Email
+            <input type="email" name="email" th:value="${user.email}">
+        </label>
+        <small>Blank fields are left unchanged.</small>
+        <div>
+            <button type="submit">Save</button>
+            <a th:href="@{/users}">Cancel</a>
+        </div>
+    </form>
+</body>
+</html>
