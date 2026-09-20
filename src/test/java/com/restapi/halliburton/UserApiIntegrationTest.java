@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional   // rolls back after each test
+@Transactional
 class UserApiIntegrationTest {
 
     @Autowired
@@ -30,7 +30,6 @@ class UserApiIntegrationTest {
                                 """))
                 .andExpect(status().isCreated());
 
-        // fetch the list and assert the user is there
         mockMvc.perform(get("/api/users"))
                 .andExpect(jsonPath("$[0].name").value("Rajesh"));
     }
