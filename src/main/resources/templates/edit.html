@@ -15,13 +15,17 @@
 <body>
     <h1>Edit user #<span th:text="${user.id}">1</span></h1>
 
-    <form th:action="@{/users/{id}/edit(id=${user.id})}" method="post">
+    <form th:action="@{/users/{id}/edit(id=${user.id})}" th:object="${editForm}" method="post">
         <label>Name
-            <input type="text" name="name" th:value="${user.name}">
+            <input type="text" th:field="*{name}">
         </label>
+        <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
         <label>Email
-            <input type="email" name="email" th:value="${user.email}">
+            <input type="email" th:field="*{email}">
         </label>
+        <div class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
         <small>Blank fields are left unchanged.</small>
         <div>
             <button type="submit">Save</button>

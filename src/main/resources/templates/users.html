@@ -14,6 +14,7 @@
         button { padding: .4rem .8rem; cursor: pointer; }
         .message { background: #e6f4ea; padding: .6rem; border-radius: 4px; margin-bottom: 1rem; }
         .error { background: #fdecea; padding: .6rem; border-radius: 4px; margin-bottom: 1rem; }
+        .field-error { color: #b3261d; font-size: .85rem; margin-top: .2rem; }
     </style>
 </head>
 <body>
@@ -22,10 +23,17 @@
     <div class="message" th:if="${message}" th:text="${message}"></div>
     <div class="error" th:if="${error}" th:text="${error}"></div>
 
+
     <!-- CREATE -->
-    <form class="add-form" th:action="@{/users}" method="post">
-        <input type="text" name="name" placeholder="Name" required>
-        <input type="email" name="email" placeholder="Email (optional)">
+    <form class="add-form" th:action="@{/users}" th:object="${newUser}" method="post">
+        <div>
+            <input type="text" th:field="*{name}" placeholder="Name">
+            <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <div>
+            <input type="email" th:field="*{email}" placeholder="Email (optional)">
+            <div class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+        </div>
         <button type="submit">Add user</button>
     </form>
 
